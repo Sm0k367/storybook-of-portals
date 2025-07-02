@@ -5,7 +5,8 @@
   box-sizing: border-box;
 }
 
-body {
+html, body {
+  height: 100%;
   background-color: #0a0a0a;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #ffffff;
@@ -15,39 +16,38 @@ body {
 /* Book Container */
 .book {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  perspective: 2000px;
+  height: 100%;
   position: relative;
+  perspective: 2000px;
 }
 
 /* Page */
 .page {
-  width: 80%;
+  position: absolute;
+  width: 90%;
   max-width: 800px;
-  height: 80vh;
+  height: 85%;
+  padding: 3rem;
   background: #1a112f;
   border: 2px solid #8750f7;
-  border-radius: 15px;
-  padding: 3rem;
-  margin: 1rem;
+  border-radius: 20px;
   box-shadow: 0 0 40px rgba(135, 80, 247, 0.3);
-  transition: transform 1s;
-  transform-origin: right center;
-  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
   transform: rotateY(90deg);
-  position: absolute;
-  top: 10vh;
-  left: 10%;
-  right: 10%;
+  opacity: 0;
+  transition: all 1s ease;
   z-index: 1;
 }
 
 .page.active {
-  opacity: 1;
   transform: rotateY(0deg);
+  opacity: 1;
   z-index: 10;
 }
 
@@ -56,27 +56,22 @@ body {
 .final {
   background: linear-gradient(145deg, #8750f7, #2c1a4a);
   color: #ffffff;
-  text-align: center;
 }
 
-/* Content */
-.content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100%;
-  text-align: center;
-}
-
-h1, h2 {
+/* Content Styling */
+.content h1,
+.content h2 {
   font-size: 2.5rem;
   margin-bottom: 1rem;
+  color: #ffffff;
 }
 
-p {
+.content p {
   font-size: 1.2rem;
   margin-bottom: 2rem;
-  color: #ccc;
+  color: #cccccc;
+  max-width: 600px;
+  line-height: 1.6;
 }
 
 button,
@@ -102,4 +97,27 @@ button:hover,
   font-size: 3rem;
   color: #fff;
   text-shadow: 0 0 10px #8750f7, 0 0 20px #8750f7, 0 0 40px #8750f7;
+  margin-bottom: 1rem;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .page {
+    padding: 2rem;
+  }
+
+  .content h1,
+  .content h2 {
+    font-size: 1.8rem;
+  }
+
+  .content p {
+    font-size: 1rem;
+  }
+
+  button,
+  .cta {
+    font-size: 1rem;
+    padding: 0.8rem 1.5rem;
+  }
 }
