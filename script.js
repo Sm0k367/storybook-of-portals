@@ -1,38 +1,54 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const startBtn = document.getElementById('start-btn');
-  const pages = document.querySelectorAll('.page');
-  const bgMusic = document.getElementById('bg-music');
+document.addEventListener("DOMContentLoaded", () => {
+  const pages = document.querySelectorAll(".page");
+  const startBtn = document.getElementById("start");
+  const glitchMusic = document.getElementById("glitch-music");
+  const voiceover = document.getElementById("voiceover");
 
   let currentPage = 0;
 
-  function showNextPage() {
+  function showPage(index) {
+    pages.forEach((page, i) => {
+      page.classList.remove("active");
+      if (i === index) {
+        page.classList.add("active");
+      }
+    });
+  }
+
+  function nextPage() {
     if (currentPage < pages.length - 1) {
-      pages[currentPage].style.display = 'none';
       currentPage++;
-      pages[currentPage].scrollIntoView({ behavior: 'smooth', block: 'center' });
+      showPage(currentPage);
     }
   }
 
-  // Hide all pages except the cover
-  pages.forEach((page, index) => {
-    if (index !== 0) {
-      page.style.display = 'none';
+  // Start button
+  startBtn.addEventListener("click", () => {
+    glitchMusic.volume = 0.4;
+    glitchMusic.play();
+
+    voiceover.volume = 0.8;
+    voiceover.play();
+
+    nextPage();
+  });
+
+  // Click anywhere to turn page (except links)
+  document.addEventListener("click", (e) => {
+    const isLink = e.target.tagName === "A" || e.target.closest("a");
+    if (!isLink && currentPage > 0 && currentPage < pages.length - 1) {
+      nextPage();
     }
   });
 
-  // Handle Start Button
-  startBtn.addEventListener('click', () => {
-    showNextPage();
-    bgMusic.volume = 0.6;
-    bgMusic.play().catch((e) => console.warn('Autoplay blocked:', e));
+  // Click on page to open portal if it has a data-url
+  pages.forEach((page) => {
+    page.addEventListener("click", () => {
+      const url = page.getAttribute("data-url");
+      if (url) window.open(url, "_blank");
+    });
   });
 
-  // Optional: Click anywhere to advance pages
-  document.addEventListener('click', (e) => {
-    const isButton = e.target.tagName.toLowerCase() === 'button' || e.target.classList.contains('portal-link');
-    if (!isButton && currentPage > 0 && currentPage < pages.length - 1) {
-      showNextPage();
-    }
-  });
+  // Show cover on load
+  showPage(currentPage);
 });
-
